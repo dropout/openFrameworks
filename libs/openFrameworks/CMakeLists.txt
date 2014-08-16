@@ -7,6 +7,14 @@ project(openFrameworks)
 #set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs)
 
 # find dependent libraries
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+#find_package(GStreamer REQUIRED)
+
+find_package(GStreamer REQUIRED "0.10.20")
+
+
+#FIND_PACKAGE(GTK3 COMPONENTS gtk)
 #find_package(OpenGL REQUIRED)
 #find_package(GLEW REQUIRED)
 #find_package(GLFW REQUIRED)
@@ -24,9 +32,9 @@ set(INCLUDE
 	${BASEDIR}/3d/ofMesh.h
 	${BASEDIR}/3d/ofNode.h
 
-	#app
+	# app
 	${BASEDIR}/app/ofAppBaseWindow.h
-	${BASEDIR}/app/ofAppEGLWindow.h
+	#${BASEDIR}/app/ofAppEGLWindow.h
 	${BASEDIR}/app/ofAppGLFWWindow.h
 	${BASEDIR}/app/ofAppGlutWindow.h
 	${BASEDIR}/app/ofAppNoWindow.h	
@@ -34,16 +42,16 @@ set(INCLUDE
 	${BASEDIR}/app/ofBaseApp.h
 	${BASEDIR}/app/ofIcon.h
 
-	#communication
+	# communication
 	${BASEDIR}/communication/ofArduino.h
 	${BASEDIR}/communication/ofSerial.h
 
-	#events
+	# events
 	${BASEDIR}/events/ofDelegate.h
 	${BASEDIR}/events/ofEvents.h
 	${BASEDIR}/events/ofEventUtils.h
 
-	#gl
+	# gl
 	${BASEDIR}/gl/ofFbo.h
 	${BASEDIR}/gl/ofGLProgrammableRenderer.h
 	${BASEDIR}/gl/ofGLRenderer.h
@@ -55,7 +63,7 @@ set(INCLUDE
 	${BASEDIR}/gl/ofVbo.h
 	${BASEDIR}/gl/ofVboMesh.h
 
-	#graphics
+	# graphics
 	${BASEDIR}/graphics/of3dGraphics.h
 	${BASEDIR}/graphics/ofBitmapFont.h
 	${BASEDIR}/graphics/ofCairoRenderer.h
@@ -68,7 +76,7 @@ set(INCLUDE
 	${BASEDIR}/graphics/ofTessellator.h
 	${BASEDIR}/graphics/ofTrueTypeFont.h
 
-	#math
+	# math
 	${BASEDIR}/math/ofMath.h
 	${BASEDIR}/math/ofMatrix3x3.h
 	${BASEDIR}/math/ofMatrix4x4.h
@@ -78,7 +86,7 @@ set(INCLUDE
 	${BASEDIR}/math/ofVec4f.h
 	${BASEDIR}/math/ofVectorMath.h
 
-	#sound
+	# sound
 	${BASEDIR}/sound/ofBaseSoundPlayer.h
 	${BASEDIR}/sound/ofBaseSoundStream.h
 	${BASEDIR}/sound/ofFmodSoundPlayer.h
@@ -87,7 +95,7 @@ set(INCLUDE
 	${BASEDIR}/sound/ofSoundPlayer.h
 	${BASEDIR}/sound/ofSoundStream.h	
 
-	#types
+	# types
 	${BASEDIR}/types/ofBaseTypes.h
 	${BASEDIR}/types/ofColor.h
 	${BASEDIR}/types/ofParameterGroup.h
@@ -96,7 +104,7 @@ set(INCLUDE
 	${BASEDIR}/types/ofRectangle.h
 	${BASEDIR}/types/ofTypes.h	
 
-	#utils
+	# utils
 	${BASEDIR}/utils/ofConstants.h
 	${BASEDIR}/utils/ofFileUtils.h
 	${BASEDIR}/utils/ofLog.h
@@ -108,7 +116,7 @@ set(INCLUDE
 	${BASEDIR}/utils/ofUtils.h
 	${BASEDIR}/utils/ofXml.h	
 
-	#video
+	# video
 	${BASEDIR}/video/ofDirectShowGrabber.h
 	${BASEDIR}/video/ofGstUtils.h
 	${BASEDIR}/video/ofGstVideoGrabber.h
@@ -121,6 +129,9 @@ set(INCLUDE
 	${BASEDIR}/video/ofQuickTimePlayer.h
 	${BASEDIR}/video/ofVideoGrabber.h
 	${BASEDIR}/video/ofVideoPlayer.h
+
+	# ofMain
+	${BASEDIR}/ofMain.h
 )
 
 
@@ -134,21 +145,21 @@ set(SRC
 	${BASEDIR}/3d/ofMesh.cpp
 	${BASEDIR}/3d/ofNode.cpp
 
-	#app
-	${BASEDIR}/app/ofAppEGLWindow.cpp
+	# app
+	#${BASEDIR}/app/ofAppEGLWindow.cpp
 	${BASEDIR}/app/ofAppGLFWWindow.cpp
 	${BASEDIR}/app/ofAppGlutWindow.cpp
 	${BASEDIR}/app/ofAppNoWindow.cpp
 	${BASEDIR}/app/ofAppRunner.cpp
 
-	#communication
+	# communication
 	${BASEDIR}/communication/ofArduino.cpp
 	${BASEDIR}/communication/ofSerial.cpp
 
-	#events
+	# events
 	${BASEDIR}/events/ofEvents.cpp
 
-	#gl
+	# gl
 	${BASEDIR}/gl/ofFbo.cpp
 	${BASEDIR}/gl/ofGLProgrammableRenderer.cpp
 	${BASEDIR}/gl/ofGLRenderer.cpp
@@ -160,7 +171,7 @@ set(SRC
 	${BASEDIR}/gl/ofVbo.cpp
 	${BASEDIR}/gl/ofVboMesh.cpp
 
-	#graphics
+	# graphics
 	${BASEDIR}/graphics/of3dGraphics.cpp
 	${BASEDIR}/graphics/ofBitmapFont.cpp
 	${BASEDIR}/graphics/ofCairoRenderer.cpp
@@ -173,7 +184,7 @@ set(SRC
 	${BASEDIR}/graphics/ofTessellator.cpp
 	${BASEDIR}/graphics/ofTrueTypeFont.cpp
 
-	#math
+	# math
 	${BASEDIR}/math/ofMath.cpp
 	${BASEDIR}/math/ofMatrix3x3.cpp
 	${BASEDIR}/math/ofMatrix4x4.cpp
@@ -181,21 +192,21 @@ set(SRC
 	${BASEDIR}/math/ofVec2f.cpp
 	${BASEDIR}/math/ofVec4f.cpp
 
-	#sound
+	# sound
 	${BASEDIR}/sound/ofFmodSoundPlayer.cpp
 	${BASEDIR}/sound/ofOpenALSoundPlayer.cpp
 	${BASEDIR}/sound/ofRtAudioSoundStream.cpp
 	${BASEDIR}/sound/ofSoundPlayer.cpp
 	${BASEDIR}/sound/ofSoundStream.cpp
 
-	#types
+	# types
 	${BASEDIR}/types/ofBaseTypes.cpp
 	${BASEDIR}/types/ofColor.cpp
 	${BASEDIR}/types/ofParameter.cpp
 	${BASEDIR}/types/ofParameterGroup.cpp
 	${BASEDIR}/types/ofRectangle.cpp
 
-	#utils
+	# utils
 	${BASEDIR}/utils/ofFileUtils.cpp
 	${BASEDIR}/utils/ofLog.cpp
 	${BASEDIR}/utils/ofMatrixStack.cpp
@@ -205,14 +216,14 @@ set(SRC
 	${BASEDIR}/utils/ofUtils.cpp
 	${BASEDIR}/utils/ofXml.cpp
 
-	#video
+	# video
 	${BASEDIR}/video/ofDirectShowGrabber.cpp
 	${BASEDIR}/video/ofGstUtils.cpp
 	${BASEDIR}/video/ofGstVideoGrabber.cpp
 	${BASEDIR}/video/ofGstVideoPlayer.cpp
-	${BASEDIR}/video/ofQTKitGrabber.mm
-	${BASEDIR}/video/ofQTKitMovieRenderer.m
-	${BASEDIR}/video/ofQTKitPlayer.mm
+	#${BASEDIR}/video/ofQTKitGrabber.mm
+	#${BASEDIR}/video/ofQTKitMovieRenderer.m
+	#${BASEDIR}/video/ofQTKitPlayer.mm
 	${BASEDIR}/video/ofQtUtils.cpp
 	${BASEDIR}/video/ofQuickTimeGrabber.cpp
 	${BASEDIR}/video/ofQuickTimePlayer.cpp
@@ -247,8 +258,10 @@ include_directories(
 include_directories(
 	${OF_LIBS_DIR}/FreeImage/include
 	${OF_LIBS_DIR}/cairo/include
+	${OF_LIBS_DIR}/cairo/include/cairo
 	${OF_LIBS_DIR}/fmodex/include
 	${OF_LIBS_DIR}/freetype/include
+	${OF_LIBS_DIR}/freetype/include/freetype2
 	${OF_LIBS_DIR}/glew/include
 	${OF_LIBS_DIR}/glfw/include
 	${OF_LIBS_DIR}/glu/include
@@ -260,6 +273,9 @@ include_directories(
 	${OF_LIBS_DIR}/rtAudio/include	
 	${OF_LIBS_DIR}/tess2/include
 	${OF_LIBS_DIR}/videoInput/include
+
+	${GTK3_INCLUDE_DIRS}
+	${GSTREAMER_INCLUDE_DIR}
 )
 
 # link dependent libraries
@@ -271,3 +287,9 @@ include_directories(
 
 # Configure OGLPlus library
 #add_definitions(-DOGLPLUS_USE_GLCOREARB_H=0 -DOGLPLUS_USE_GLEW=1 -DGLM_FORCE_RADIANS)
+#add_definitions(-DOF_TARGET_LINUX=1)
+#add_definitions(-DGST_DISABLE_DEPRECATED=1)
+add_definitions(
+	-DOF_USING_GTK 
+	-D_REENTRANT
+)
