@@ -29,7 +29,7 @@
 # GLFW_INCLUDE_DIR
 # GLFW_LIBRARIES
 
-find_path( GLFW_INCLUDE_DIR 
+find_path(GLFW_INCLUDE_DIR 
     NAMES
         GL/glfw.h
         GLFW/glfw3.h
@@ -59,7 +59,7 @@ if (WIN32)
             PATHS
                 ${GLFW_LOCATION}
                 ${GLFW_LOCATION}/lib
-                ${GLFW_LOCATION}/lib/x64
+                ${GLFW_LOCATION}/lib/x64                
                 $ENV{GLFW_LOCATION}/lib
                 ${OPENGL_LIBRARY_DIR}
                 /usr/lib
@@ -129,6 +129,7 @@ else ()
             PATHS
                 ${GLFW_LOCATION}
                 ${GLFW_LOCATION}/lib
+                ${GLFW_LOCATION}/lib/linux64
                 $ENV{GLFW_LOCATION}/lib
                 ${GLFW_LOCATION}/lib/x11
                 $ENV{GLFW_LOCATION}/lib/x11

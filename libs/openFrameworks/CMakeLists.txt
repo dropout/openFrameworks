@@ -6,18 +6,30 @@ project(openFrameworks)
 # configure find_package behaviour
 #set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs)
 
-# find dependent libraries
+# find dependencies
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
-#find_package(GStreamer REQUIRED)
-
 find_package(GStreamer REQUIRED "0.10.20")
 
+set(Poco_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/libs/poco)
+find_package(Poco REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(Glew REQUIRED)
 
-#FIND_PACKAGE(GTK3 COMPONENTS gtk)
-#find_package(OpenGL REQUIRED)
-#find_package(GLEW REQUIRED)
-#find_package(GLFW REQUIRED)
+
+set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs/glfw)
+find_package(Glfw REQUIRED)
+
+# find cairo
+find_package(Cairo REQUIRED)
+
+# find freeimage
+find_package(FreeImage REQUIRED)
+
+# find tess2
+
+# find openal
+find_package(OpenAL REQUIRED)
 
 # source files
 set(BASEDIR ${PROJECT_SOURCE_DIR})
@@ -231,17 +243,11 @@ set(SRC
 	${BASEDIR}/video/ofVideoPlayer.cpp
 )
 
-# library target
-add_library(openFrameworks ${INCLUDE} ${SRC})
+# set include dirs
+set(OF_INCLUDE_DIRS
 
-# configure target
-#set_target_properties(openFrameworks PROPERTIES 
-#	ARCHIVE_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
-#	LIBRARY_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
-#)
-
-# set include folders
-include_directories(
+	# core
+	${BASEDIR}
 	${BASEDIR}/3d
 	${BASEDIR}/app
 	${BASEDIR}/communication
@@ -253,9 +259,8 @@ include_directories(
 	${BASEDIR}/types
 	${BASEDIR}/utils
 	${BASEDIR}/video
-)
 
-include_directories(
+	# libs
 	${OF_LIBS_DIR}/FreeImage/include
 	${OF_LIBS_DIR}/cairo/include
 	${OF_LIBS_DIR}/cairo/include/cairo
@@ -274,16 +279,57 @@ include_directories(
 	${OF_LIBS_DIR}/tess2/include
 	${OF_LIBS_DIR}/videoInput/include
 
+	
+	${OPENGL_INCLUDE_DIR}
+	${GLEW_INCLUDE_DIR}
+	${GLFW_INCLUDE_DIR}
 	${GTK3_INCLUDE_DIRS}
 	${GSTREAMER_INCLUDE_DIR}
+	${FreeImage_INCLUDE_DIRS}
+	${OPENAL_INCLUDE_DIR}
+
+
+	CACHE STRING "Description"
 )
 
-# link dependent libraries
-#target_link_libraries(lab 
-#	${GLEW_LIBRARIES}
-#	${GLFW_LIBRARIES}
-#	${OpenGL_LIBRARY_DIRS}
+# library target
+add_library(openFrameworks
+	${INCLUDE}
+	${SRC}
+)
+
+# configure target
+#set_target_properties(openFrameworks PROPERTIES 
+#	ARCHIVE_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
+#	LIBRARY_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
 #)
+
+include_directories(
+	${OF_INCLUDE_DIRS}
+)
+
+#
+set(OF_LIBRARIES
+	pthread
+	${OPENGL_LIBRARIES}
+	${GLEW_LIBRARY}
+	${GLFW_LIBRARIES}
+	${Poco_LIBRARIES}
+	${FreeImage_LIBRARIES}
+	${CAIRO_LIBRARIES}
+	${OPENAL_LIBRARY}
+
+	CACHE STRING "Description"
+)
+
+OF_print_var( OF_INCLUDE_DIRS )
+OF_print_var( OF_LIBRARIES )
+
+
+# link dependent libraries
+target_link_libraries(openFrameworks
+	${OF_LIBRARIES}
+)
 
 # Configure OGLPlus library
 #add_definitions(-DOGLPLUS_USE_GLCOREARB_H=0 -DOGLPLUS_USE_GLEW=1 -DGLM_FORCE_RADIANS)
@@ -293,3 +339,6 @@ add_definitions(
 	-DOF_USING_GTK 
 	-D_REENTRANT
 )
+
+#install(TARGETS openFrameworks DESTINATION ${CMAKE_SOURCE_DIR}/bin)
+#install(FILES ${HEADER} DESTINATION include/${DIR})

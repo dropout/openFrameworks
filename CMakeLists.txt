@@ -4,7 +4,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/Macros.cmake)
 # Project name
 project(openFrameworks)
 
-# Disable building in source
+# Disable building in source folder
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(SEND_ERROR "In-source builds are not allowed.")
 endif("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
@@ -17,7 +17,7 @@ set(OF_VERSION_PATCH 3)
 # Project related internal variables
 set(OF_LIBS_DIR "${CMAKE_SOURCE_DIR}/libs")
 
-# Cmake variables
+# CMake configuration
 set(CMAKE_MODULE_PATH						${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_FLAGS							"-Wall -std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG					"-O0 -g")
@@ -26,10 +26,13 @@ set(CMAKE_CXX_FLAGS_RELEASE				"-O4 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"-O2 -g")
 
 # Options exposed to the user
-OF_option(BUILD_SHARED_LIBS ON BOOL "Build shared libraries.")
+#of_option(BUILD_SHARED_LIBS ON BOOL "Build shared libraries.")
+
+of_option(OF_BUILD_EXAMPLES_3D ON BOOL "Build 3D examples.")
+of_option(OF_LIBRARY_OUTPUT_PATH ON STRING "Where to put compiled openFrameworks libraries.")
 
 # openFrameworks library project
 add_subdirectory(libs/openFrameworks)
 
 # openFrameworks examples project
-#add_subdirectory(examples)
+add_subdirectory(examples)
