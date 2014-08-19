@@ -69,76 +69,122 @@ IF(WIN32)
 ENDIF(WIN32)
 
 # Add in some path suffixes. These will have to be updated whenever a new Poco version comes out.
-SET(SUFFIX_FOR_INCLUDE_PATH
- poco-1.2.4
- poco-1.2.3
- poco-1.2.1
-)
+#SET(SUFFIX_FOR_INCLUDE_PATH
+# poco-1.2.4
+# poco-1.2.3
+# poco-1.2.1
+#)
 
 SET(SUFFIX_FOR_LIBRARY_PATH
- poco-1.2.4/lib
- poco-1.2.4/lib/Linux/i686
- poco-1.2.3/lib
- poco-1.2.3/lib/Linux/i686
- poco-1.2.1/lib
- poco-1.2.1/lib/Linux/i686
- lib
- lib/Linux/i686
  lib/linux64
 )
 
 #
 # Look for an installation.
 #
-FIND_PATH(Poco_INCLUDE_DIR NAMES Poco/AbstractCache.h Foundation/include/Poco/AbstractCache.h PATH_SUFFIXES ${SUFFIX_FOR_INCLUDE_PATH} PATHS
+#FIND_PATH(Poco_INCLUDE_DIR NAMES include/Poco/AbstractCache.h PATH_SUFFIXES ${SUFFIX_FOR_INCLUDE_PATH} PATHS
+#FIND_PATH(Poco_INCLUDE_DIR NAMES Poco/AbstractCache.h PATHS
 
   # Look in other places.
-  ${POCO_DIR_SEARCH}
+  #${POCO_DIR_SEARCH}
 
   # Help the user find it if we cannot.
-  DOC "The ${POCO_INCLUDE_DIR_MESSAGE}"
+  #DOC "The ${POCO_INCLUDE_DIR_MESSAGE}"
+#)
+
+find_path(Poco_INCLUDE_DIR 
+    NAMES
+        Poco/AbstractCache.h
+    PATHS
+        ${POCO_LOCATION}/include
+    DOC 
+        "The directory where Poco/AbstractCache.h resides"
 )
 
 # Assume we didn't find it.
-SET(Poco_FOUND 0)
+#SET(Poco_FOUND 0)
 
 # Now try to get the include and library path.
 IF(Poco_INCLUDE_DIR)
 
-  IF(EXISTS "${Poco_INCLUDE_DIR}")
-    SET(Poco_INCLUDE_DIRS
-      ${Poco_INCLUDE_DIR}/CppUnit/include
-      ${Poco_INCLUDE_DIR}/Foundation/include
-      ${Poco_INCLUDE_DIR}/Net/include
-      ${Poco_INCLUDE_DIR}/Util/include
-      ${Poco_INCLUDE_DIR}/XML/include
-      ${Poco_INCLUDE_DIR}/Zip/include
-    )
-    SET(Poco_FOUND 1)
-  ENDIF(EXISTS "${Poco_INCLUDE_DIR}")
+
+  #IF(EXISTS "${Poco_INCLUDE_DIR}")
+  #  SET(Poco_INCLUDE_DIRS
+  #    ${Poco_INCLUDE_DIR}/CppUnit/include
+  #    ${Poco_INCLUDE_DIR}/Foundation/include
+  #    ${Poco_INCLUDE_DIR}/Net/include
+  #    ${Poco_INCLUDE_DIR}/Util/include
+  #    ${Poco_INCLUDE_DIR}/XML/include
+  #    ${Poco_INCLUDE_DIR}/Zip/include
+  #  )
+  #  SET(Poco_FOUND 1)
+  #ENDIF(EXISTS "${Poco_INCLUDE_DIR}")
 
   set( Poco_LIBRARIES "") #reset
   IF ( NOT Poco_LIBRARIES )
-    FIND_LIBRARY(Poco_LIBRARY_Zip NAMES PocoZip PocoZipd PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
+
+    # PocoNet
+    FIND_LIBRARY(Poco_LIBRARY_Net NAMES PocoNet PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
       # Look in other places.
-      ${Poco_INCLUDE_DIR}
-      ${POCO_DIR_SEARCH}
+      ${POCO_LOCATION}/lib/linux64
+      
       # Help the user find it if we cannot.
       DOC "The ${POCO_LIBRARY_PATH_DESCRIPTION}"
     )
-  FIND_LIBRARY(Poco_LIBRARY_Found NAMES PocoFoundation PocoFoundationd PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
+
+    # PocoNetSSL
+    FIND_LIBRARY(Poco_LIBRARY_NetSSL NAMES PocoNetSSL PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
       # Look in other places.
-      ${Poco_INCLUDE_DIR}
-      ${POCO_DIR_SEARCH}
+      ${POCO_LOCATION}/lib/linux64
+
       # Help the user find it if we cannot.
       DOC "The ${POCO_LIBRARY_PATH_DESCRIPTION}"
     )
-  set( Poco_LIBRARIES     "${Poco_LIBRARY_Found};${Poco_LIBRARY_Zip}" CACHE FILEPATH "Poco libraries names" FORCE )
+
+    # PocoCrypto
+    FIND_LIBRARY(Poco_LIBRARY_Crypto NAMES PocoCrypto PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
+      # Look in other places.
+      ${POCO_LOCATION}/lib/linux64
+
+      # Help the user find it if we cannot.
+      DOC "The ${POCO_LIBRARY_PATH_DESCRIPTION}"
+    )    
+
+    # PocoXML
+    FIND_LIBRARY(Poco_LIBRARY_Xml NAMES PocoXML PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
+      # Look in other places.
+      ${POCO_LOCATION}/lib/linux64
+
+      # Help the user find it if we cannot.
+      DOC "The ${POCO_LIBRARY_PATH_DESCRIPTION}"
+    )
+
+    # PocoUtil
+    FIND_LIBRARY(Poco_LIBRARY_Util NAMES PocoUtil PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
+      # Look in other places.
+      ${POCO_LOCATION}/lib/linux64
+
+      # Help the user find it if we cannot.
+      DOC "The ${POCO_LIBRARY_PATH_DESCRIPTION}"
+    )    
+
+    # PocoFoundation
+    FIND_LIBRARY(Poco_LIBRARY_Found NAMES PocoFoundation PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
+      # Look in other places.
+      ${POCO_LOCATION}/lib/linux64
+
+      # Help the user find it if we cannot.
+      DOC "The ${POCO_LIBRARY_PATH_DESCRIPTION}"
+    )
+
+
+
+  set( Poco_LIBRARIES "${Poco_LIBRARY_NetSSL};${Poco_LIBRARY_Net};${Poco_LIBRARY_Crypto};${Poco_LIBRARY_Util};${Poco_LIBRARY_Xml};${Poco_LIBRARY_Found}" CACHE FILEPATH "Poco libraries names" FORCE )
 
   endif()
 
   IF ( NOT Poco_LIBRARY_DIR )
-    FIND_LIBRARY(Poco_LIBRARY_DIR_TMP NAMES PocoFoundation PocoFoundationd PocoZip PocoZipd PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
+    FIND_LIBRARY(Poco_LIBRARY_DIR_TMP NAMES PocoNet PocoXML PocoUtil PocoFoundation PATH_SUFFIXES ${SUFFIX_FOR_LIBRARY_PATH} PATHS
 
       # Look in other places.
       ${Poco_INCLUDE_DIR}

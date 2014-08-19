@@ -11,11 +11,12 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 find_package(GStreamer REQUIRED "0.10.20")
 
-set(Poco_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/libs/poco)
+#set(Poco_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/libs/poco)
+set(POCO_LOCATION ${CMAKE_SOURCE_DIR}/libs/poco)
 find_package(Poco REQUIRED)
+
 find_package(OpenGL REQUIRED)
 find_package(Glew REQUIRED)
-
 
 set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs/glfw)
 find_package(Glfw REQUIRED)
@@ -32,6 +33,15 @@ find_package(Tesselator REQUIRED)
 
 # find openal
 find_package(OpenAL REQUIRED)
+
+# find openssl
+find_package(OpenSSL REQUIRED)
+
+# find openssl
+find_package(Sndfile REQUIRED)
+
+
+
 
 # source files
 set(BASEDIR ${PROJECT_SOURCE_DIR})
@@ -263,9 +273,9 @@ set(OF_INCLUDE_DIRS
 	${BASEDIR}/video
 
 	# libs
-	${OF_LIBS_DIR}/FreeImage/include
-	${OF_LIBS_DIR}/cairo/include
-	${OF_LIBS_DIR}/cairo/include/cairo
+	#${OF_LIBS_DIR}/FreeImage/include
+	#${OF_LIBS_DIR}/cairo/include
+	#${OF_LIBS_DIR}/cairo/include/cairo
 	${OF_LIBS_DIR}/fmodex/include
 	${OF_LIBS_DIR}/freetype/include
 	${OF_LIBS_DIR}/freetype/include/freetype2
@@ -274,11 +284,11 @@ set(OF_INCLUDE_DIRS
 	${OF_LIBS_DIR}/glu/include
 	${OF_LIBS_DIR}/glut/include
 	${OF_LIBS_DIR}/kiss/include
-	${OF_LIBS_DIR}/openssl/include
-	${OF_LIBS_DIR}/poco/include
+	#${OF_LIBS_DIR}/openssl/include
+	#${OF_LIBS_DIR}/poco/include
 	${OF_LIBS_DIR}/quicktime/include
 	${OF_LIBS_DIR}/rtAudio/include	
-	${OF_LIBS_DIR}/tess2/include
+	#${OF_LIBS_DIR}/tess2/include
 	${OF_LIBS_DIR}/videoInput/include
 
 	
@@ -286,10 +296,13 @@ set(OF_INCLUDE_DIRS
 	${GLEW_INCLUDE_DIR}
 	${GLFW_INCLUDE_DIR}
 	${GTK3_INCLUDE_DIRS}
+	${OPENSSL_INCLUDE_DIR}
+	${Poco_INCLUDE_DIR}
 	${GSTREAMER_INCLUDE_DIR}
 	${FreeImage_INCLUDE_DIRS}
 	${OPENAL_INCLUDE_DIR}
 	${TESS2_INCLUDE_DIR}
+	${SNDFILE_INCLUDE_DIR}
 
 
 	CACHE STRING "Description"
@@ -301,11 +314,7 @@ add_library(openFrameworks
 	${SRC}
 )
 
-# configure target
-#set_target_properties(openFrameworks PROPERTIES 
-#	ARCHIVE_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
-#	LIBRARY_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
-#)
+
 
 include_directories(
 	${OF_INCLUDE_DIRS}
@@ -318,10 +327,13 @@ set(OF_LIBRARIES
 	${GLEW_LIBRARY}
 	${GLFW_LIBRARIES}
 	${Poco_LIBRARIES}
+	${OPENSSL_LIBRARIES}	
 	${FreeImage_LIBRARIES}
 	${CAIRO_LIBRARIES}
 	${OPENAL_LIBRARY}
 	${TESS2_LIBRARY}
+	${SNDFILE_LIBRARIES}	
+	
 
 	CACHE STRING "Description"
 )
@@ -329,20 +341,32 @@ set(OF_LIBRARIES
 OF_print_var( OF_INCLUDE_DIRS )
 OF_print_var( OF_LIBRARIES )
 
+OF_print_var( OF_INCLUDE_DIRS )
+OF_print_var( Poco_INCLUDE_DIR )
+
 
 # link dependent libraries
 target_link_libraries(openFrameworks
 	${OF_LIBRARIES}
 )
 
-# Configure OGLPlus library
-#add_definitions(-DOGLPLUS_USE_GLCOREARB_H=0 -DOGLPLUS_USE_GLEW=1 -DGLM_FORCE_RADIANS)
-#add_definitions(-DOF_TARGET_LINUX=1)
-#add_definitions(-DGST_DISABLE_DEPRECATED=1)
 add_definitions(
 	-DOF_USING_GTK 
 	-D_REENTRANT
 )
 
+# Configure OGLPlus library
+#add_definitions(-DOGLPLUS_USE_GLCOREARB_H=0 -DOGLPLUS_USE_GLEW=1 -DGLM_FORCE_RADIANS)
+#add_definitions(-DOF_TARGET_LINUX=1)
+#add_definitions(-DGST_DISABLE_DEPRECATED=1)
+
+
+
 #install(TARGETS openFrameworks DESTINATION ${CMAKE_SOURCE_DIR}/bin)
 #install(FILES ${HEADER} DESTINATION include/${DIR})
+
+# configure target
+#set_target_properties(openFrameworks PROPERTIES 
+#	ARCHIVE_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
+#	LIBRARY_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
+#)
