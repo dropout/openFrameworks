@@ -40,8 +40,12 @@ find_package(OpenSSL REQUIRED)
 # find openssl
 find_package(Sndfile REQUIRED)
 
+# find openssl
+#find_package(Xcursor REQUIRED)
 
-
+# find openssl
+set(KISS_LOCATION ${CMAKE_SOURCE_DIR}/libs/kiss)
+find_package(Kiss REQUIRED)
 
 # source files
 set(BASEDIR ${PROJECT_SOURCE_DIR})
@@ -283,18 +287,17 @@ set(OF_INCLUDE_DIRS
 	${OF_LIBS_DIR}/glfw/include
 	${OF_LIBS_DIR}/glu/include
 	${OF_LIBS_DIR}/glut/include
-	${OF_LIBS_DIR}/kiss/include
+	#${OF_LIBS_DIR}/kiss/include
 	#${OF_LIBS_DIR}/openssl/include
 	#${OF_LIBS_DIR}/poco/include
 	${OF_LIBS_DIR}/quicktime/include
 	${OF_LIBS_DIR}/rtAudio/include	
 	#${OF_LIBS_DIR}/tess2/include
 	${OF_LIBS_DIR}/videoInput/include
-
 	
 	${OPENGL_INCLUDE_DIR}
-	${GLEW_INCLUDE_DIR}
 	${GLFW_INCLUDE_DIR}
+	${GLEW_INCLUDE_DIR}
 	${GTK3_INCLUDE_DIRS}
 	${OPENSSL_INCLUDE_DIR}
 	${Poco_INCLUDE_DIR}
@@ -303,7 +306,8 @@ set(OF_INCLUDE_DIRS
 	${OPENAL_INCLUDE_DIR}
 	${TESS2_INCLUDE_DIR}
 	${SNDFILE_INCLUDE_DIR}
-
+	${KISS_INCLUDE_DIR}
+#	${XCURSOR_INCLUDE_DIRS}
 
 	CACHE STRING "Description"
 )
@@ -314,18 +318,16 @@ add_library(openFrameworks
 	${SRC}
 )
 
-
-
 include_directories(
 	${OF_INCLUDE_DIRS}
 )
 
 #
-set(OF_LIBRARIES
-	pthread
-	${OPENGL_LIBRARIES}
-	${GLEW_LIBRARY}
+set(OF_LIBRARIES		
 	${GLFW_LIBRARIES}
+	${GLEW_LIBRARY}	
+	${OPENGL_LIBRARIES}
+	
 	${Poco_LIBRARIES}
 	${OPENSSL_LIBRARIES}	
 	${FreeImage_LIBRARIES}
@@ -333,7 +335,9 @@ set(OF_LIBRARIES
 	${OPENAL_LIBRARY}
 	${TESS2_LIBRARY}
 	${SNDFILE_LIBRARIES}	
-	
+	${KISS_LIBRARY}
+#	${XCURSOR_LIBRARIES}
+	pthread	
 
 	CACHE STRING "Description"
 )

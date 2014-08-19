@@ -120,7 +120,8 @@ else ()
             message(FATAL_ERROR "xf86vmode library not found - required for GLFW")
         endif()
 
-        list(APPEND GLFW_x11_LIBRARY ${X11_Xrandr_LIB} ${X11_Xxf86vm_LIB})
+        list(APPEND GLFW_x11_LIBRARY ${X11_Xrandr_LIB} ${X11_Xxf86vm_LIB} ${X11_Xcursor_LIB} ${X11_Xi_LIB})
+        #list(APPEND GLFW_x11_LIBRARY ${X11_LIBRARIES})
 
         find_library( GLFW_glfw_LIBRARY
             NAMES 
@@ -152,12 +153,14 @@ set( GLFW_FOUND "NO" )
 if(GLFW_INCLUDE_DIR)
 
     if(GLFW_glfw_LIBRARY)
-        set( GLFW_LIBRARIES ${GLFW_glfw_LIBRARY} 
-                            ${GLFW_x11_LIBRARY} 
-                            ${GLFW_cocoa_LIBRARY} 
-                            ${GLFW_iokit_LIBRARY} 
-                            ${GLFW_corevideo_LIBRARY} )        
-        set( GLFW_FOUND "YES" )
+        set( GLFW_LIBRARIES 
+            ${GLFW_glfw_LIBRARY} 
+            ${GLFW_x11_LIBRARY} 
+            ${GLFW_cocoa_LIBRARY} 
+            ${GLFW_iokit_LIBRARY} 
+            ${GLFW_corevideo_LIBRARY}
+        )
+        set ( GLFW_FOUND "YES" )
         set (GLFW_LIBRARY ${GLFW_LIBRARIES})
         set (GLFW_INCLUDE_PATH ${GLFW_INCLUDE_DIR})
     endif(GLFW_glfw_LIBRARY)

@@ -15,6 +15,7 @@ set(OF_VERSION_MINOR 8)
 set(OF_VERSION_PATCH 3)
 
 # Project related internal variables
+set(OF_ROOT_DIR "${CMAKE_SOURCE_DIR}")
 set(OF_LIBS_DIR "${CMAKE_SOURCE_DIR}/libs")
 
 # CMake configuration
