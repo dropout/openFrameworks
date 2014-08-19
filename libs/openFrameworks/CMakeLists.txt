@@ -27,6 +27,8 @@ find_package(Cairo REQUIRED)
 find_package(FreeImage REQUIRED)
 
 # find tess2
+set(TESS2_LOCATION ${CMAKE_SOURCE_DIR}/libs/tess2)
+find_package(Tesselator REQUIRED)
 
 # find openal
 find_package(OpenAL REQUIRED)
@@ -287,6 +289,7 @@ set(OF_INCLUDE_DIRS
 	${GSTREAMER_INCLUDE_DIR}
 	${FreeImage_INCLUDE_DIRS}
 	${OPENAL_INCLUDE_DIR}
+	${TESS2_INCLUDE_DIR}
 
 
 	CACHE STRING "Description"
@@ -318,6 +321,7 @@ set(OF_LIBRARIES
 	${FreeImage_LIBRARIES}
 	${CAIRO_LIBRARIES}
 	${OPENAL_LIBRARY}
+	${TESS2_LIBRARY}
 
 	CACHE STRING "Description"
 )
