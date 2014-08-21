@@ -18,6 +18,9 @@ find_package(Poco REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(Glew REQUIRED)
 
+find_package(Fontconfig REQUIRED)
+find_package(Freetype REQUIRED)
+
 set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs/glfw)
 find_package(Glfw REQUIRED)
 
@@ -40,12 +43,12 @@ find_package(OpenSSL REQUIRED)
 # find openssl
 find_package(Sndfile REQUIRED)
 
-# find openssl
-#find_package(Xcursor REQUIRED)
-
-# find openssl
+# find kiss fft
 set(KISS_LOCATION ${CMAKE_SOURCE_DIR}/libs/kiss)
 find_package(Kiss REQUIRED)
+
+# find udev
+find_package(Udev REQUIRED)
 
 # source files
 set(BASEDIR ${PROJECT_SOURCE_DIR})
@@ -299,21 +302,33 @@ set(OF_INCLUDE_DIRS
 	${GLFW_INCLUDE_DIR}
 	${GLEW_INCLUDE_DIR}
 	${GTK3_INCLUDE_DIRS}
-	${OPENSSL_INCLUDE_DIR}
+	
 	${Poco_INCLUDE_DIR}
-	${GSTREAMER_INCLUDE_DIR}
-	${FreeImage_INCLUDE_DIRS}
+
+	${FONTCONFIG_INCLUDE_DIR}
+	${FREETYPE_INCLUDE_DIRS}
+
+	${GSTREAMER_APP_INCLUDE_DIRS}
+	${GSTREAMER_INCLUDE_DIRS}
+	${GSTREAMER_VIDEO_INCLUDE_DIRS}
+	${GSTREAMER_BASE_INCLUDE_DIRS}	
+	${UDEV_INCLUDE_DIR}	
+
+
 	${OPENAL_INCLUDE_DIR}
+	${OPENSSL_INCLUDE_DIR}
+
+	${FreeImage_INCLUDE_DIRS}
+	
 	${TESS2_INCLUDE_DIR}
 	${SNDFILE_INCLUDE_DIR}
 	${KISS_INCLUDE_DIR}
-#	${XCURSOR_INCLUDE_DIRS}
 
 	CACHE STRING "Description"
 )
 
 # library target
-add_library(openFrameworks
+add_library(openFrameworks STATIC
 	${INCLUDE}
 	${SRC}
 )
@@ -323,20 +338,34 @@ include_directories(
 )
 
 #
-set(OF_LIBRARIES		
+set(OF_LIBRARIES
+
 	${GLFW_LIBRARIES}
 	${GLEW_LIBRARY}	
 	${OPENGL_LIBRARIES}
-	
+
+	${GSTREAMER_APP_LIBRARIES}
+	${GSTREAMER_LIBRARIES}
+	${GSTREAMER_VIDEO_LIBRARIES}
+	${GSTREAMER_BASE_LIBRARIES}
+	${UDEV_LIBRARIES}
+
+	${GTK3_LIBRARIES}		
 	${Poco_LIBRARIES}
+
+	${FONTCONFIG_LIBRARIES}
+	${FREETYPE_LIBRARIES}
+
+	${SNDFILE_LIBRARIES}	
+	${OPENAL_LIBRARY}
 	${OPENSSL_LIBRARIES}	
+	
 	${FreeImage_LIBRARIES}
 	${CAIRO_LIBRARIES}
-	${OPENAL_LIBRARY}
+	
 	${TESS2_LIBRARY}
-	${SNDFILE_LIBRARIES}	
+	
 	${KISS_LIBRARY}
-#	${XCURSOR_LIBRARIES}
 	pthread	
 
 	CACHE STRING "Description"
@@ -370,7 +399,7 @@ add_definitions(
 #install(FILES ${HEADER} DESTINATION include/${DIR})
 
 # configure target
-#set_target_properties(openFrameworks PROPERTIES 
-#	ARCHIVE_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
-#	LIBRARY_OUTPUT_DIRECTORY ${LAB_LIBS_LIB_DIR}
-#)
+set_target_properties(openFrameworks PROPERTIES 
+	ARCHIVE_OUTPUT_DIRECTORY ${OF_OUTPUT_PATH}/libs/openFrameworks
+	LIBRARY_OUTPUT_DIRECTORY ${OF_OUTPUT_PATH}/libs/openFrameworks
+)

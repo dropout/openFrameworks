@@ -11,6 +11,18 @@ macro(OF_print_var _variableName)
 	message(STATUS "${_variableName}=${${_variableName}}")
 endmacro()
 
+# get platform string
+macro(of_get_platform_string)
+
+endmacro(of_get_platform_string)
+
+
+
+
+
+
+
+
 # copy file if changed
 MACRO(OF_copy_file_if_changed in_file out_file target)
     IF(${in_file} IS_NEWER_THAN ${out_file})

@@ -11,8 +11,10 @@ get_filename_component(PARENT_DIRNAME ${PARENT_DIR} NAME)
 # source files
 set(SOURCE
 	${BASE_DIR}/src/main.cpp
+	${BASE_DIR}/src/glewOutput.h
+	${BASE_DIR}/src/glewOutput.cpp
 	${BASE_DIR}/src/ofApp.h
-	${BASE_DIR}/src/ofApp.cpp	
+	${BASE_DIR}/src/ofApp.cpp		
 )
 
 # header file locations

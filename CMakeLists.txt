@@ -19,7 +19,7 @@ set(OF_ROOT_DIR "${CMAKE_SOURCE_DIR}")
 set(OF_LIBS_DIR "${CMAKE_SOURCE_DIR}/libs")
 
 # CMake configuration
-set(CMAKE_MODULE_PATH						${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH						${CMAKE_SOURCE_DIR}/cmake/Modules)
 set(CMAKE_CXX_FLAGS							"-Wall -std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG					"-O0 -g")
 set(CMAKE_CXX_FLAGS_MINSIZEREL			"-Os -DNDEBUG")
@@ -29,8 +29,17 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"-O2 -g")
 # Options exposed to the user
 #of_option(BUILD_SHARED_LIBS ON BOOL "Build shared libraries.")
 
-of_option(OF_BUILD_EXAMPLES_3D ON BOOL "Build 3D examples.")
-of_option(OF_LIBRARY_OUTPUT_PATH ON STRING "Where to put compiled openFrameworks libraries.")
+of_option(OF_BUILD_EXAMPLES_3D ON BOOL "Build 3d examples.")
+of_option(OF_BUILD_EXAMPLES_GL ON BOOL "Build gl examples.")
+of_option(OF_BUILD_EXAMPLES_EVENTS ON BOOL "Build events examples.")
+
+#of_option(OF_BUILD_EXAMPLES_GRAPHICS ON BOOL "Build events examples.")
+#of_option(OF_BUILD_EXAMPLES_GLES ON BOOL "Build events examples.")
+#of_option(OF_BUILD_EXAMPLES_GUI ON BOOL "Build events examples.")
+#of_option(OF_BUILD_EXAMPLES_UTILS ON BOOL "Build events examples.")
+
+
+of_option(OF_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin" STRING "Where to put compiled openFrameworks libraries.")
 
 # openFrameworks library project
 add_subdirectory(libs/openFrameworks)

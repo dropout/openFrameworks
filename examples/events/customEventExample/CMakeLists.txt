@@ -9,8 +9,12 @@ get_filename_component(PARENT_DIR ${BASE_DIR} PATH)
 get_filename_component(PARENT_DIRNAME ${PARENT_DIR} NAME)
 
 # source files
-set(SOURCE
+set(SOURCE	
 	${BASE_DIR}/src/main.cpp
+	${BASE_DIR}/src/Bug.h
+	${BASE_DIR}/src/Bullet.h
+	${BASE_DIR}/src/GameEvent.h
+	${BASE_DIR}/src/GameEvent.cpp
 	${BASE_DIR}/src/ofApp.h
 	${BASE_DIR}/src/ofApp.cpp	
 )

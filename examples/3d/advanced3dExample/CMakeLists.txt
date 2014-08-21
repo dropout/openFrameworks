@@ -12,7 +12,13 @@ get_filename_component(PARENT_DIRNAME ${PARENT_DIR} NAME)
 set(SOURCE
 	${BASE_DIR}/src/main.cpp
 	${BASE_DIR}/src/ofApp.h
-	${BASE_DIR}/src/ofApp.cpp	
+	${BASE_DIR}/src/ofApp.cpp
+	${BASE_DIR}/src/Grid.h
+	${BASE_DIR}/src/Grid.cpp
+	${BASE_DIR}/src/OrthoCamera.h
+	${BASE_DIR}/src/OrthoCamera.cpp
+	${BASE_DIR}/src/Swarm.h
+	${BASE_DIR}/src/Swarm.cpp		
 )
 
 # header file locations
