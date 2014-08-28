@@ -6,6 +6,19 @@ project(openFrameworks)
 # configure find_package behaviour
 #set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs)
 
+set(message ${OF_LIBS_DIR}/tess2/lib/${OF_PLATFORM_STRING})
+
+OF_print_var(message)
+
+
+set(CMAKE_PREFIX_PATH
+	${OF_LIBS_DIR}/tess2/lib/${OF_PLATFORM_STRING}
+)
+
+set(CMAKE_INCLUDE_PATH
+	${OF_LIBS_DIR}/tess2/include/
+)
+
 # find dependencies
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
@@ -30,8 +43,7 @@ find_package(Cairo REQUIRED)
 # find freeimage
 find_package(FreeImage REQUIRED)
 
-# find tess2
-set(TESS2_LOCATION ${CMAKE_SOURCE_DIR}/libs/tess2)
+# find tesselator
 find_package(Tesselator REQUIRED)
 
 # find openal
@@ -165,7 +177,6 @@ set(INCLUDE
 	${BASEDIR}/ofMain.h
 )
 
-
 set(SRC
 
 	# 3d
@@ -265,7 +276,7 @@ set(SRC
 # set include dirs
 set(OF_INCLUDE_DIRS
 
-	# core
+	# core include dirs
 	${BASEDIR}
 	${BASEDIR}/3d
 	${BASEDIR}/app
@@ -279,48 +290,28 @@ set(OF_INCLUDE_DIRS
 	${BASEDIR}/utils
 	${BASEDIR}/video
 
-	# libs
-	#${OF_LIBS_DIR}/FreeImage/include
-	#${OF_LIBS_DIR}/cairo/include
-	#${OF_LIBS_DIR}/cairo/include/cairo
+	# library include dirs
 	${OF_LIBS_DIR}/fmodex/include
-	${OF_LIBS_DIR}/freetype/include
-	${OF_LIBS_DIR}/freetype/include/freetype2
-	${OF_LIBS_DIR}/glew/include
-	${OF_LIBS_DIR}/glfw/include
-	${OF_LIBS_DIR}/glu/include
-	${OF_LIBS_DIR}/glut/include
-	#${OF_LIBS_DIR}/kiss/include
-	#${OF_LIBS_DIR}/openssl/include
-	#${OF_LIBS_DIR}/poco/include
 	${OF_LIBS_DIR}/quicktime/include
 	${OF_LIBS_DIR}/rtAudio/include	
-	#${OF_LIBS_DIR}/tess2/include
 	${OF_LIBS_DIR}/videoInput/include
 	
 	${OPENGL_INCLUDE_DIR}
 	${GLFW_INCLUDE_DIR}
 	${GLEW_INCLUDE_DIR}
-	${GTK3_INCLUDE_DIRS}
-	
+	${GTK3_INCLUDE_DIRS}	
 	${Poco_INCLUDE_DIR}
-
 	${FONTCONFIG_INCLUDE_DIR}
 	${FREETYPE_INCLUDE_DIRS}
-
 	${GSTREAMER_APP_INCLUDE_DIRS}
 	${GSTREAMER_INCLUDE_DIRS}
 	${GSTREAMER_VIDEO_INCLUDE_DIRS}
 	${GSTREAMER_BASE_INCLUDE_DIRS}	
-	${UDEV_INCLUDE_DIR}	
-
-
+	${UDEV_INCLUDE_DIR}
 	${OPENAL_INCLUDE_DIR}
 	${OPENSSL_INCLUDE_DIR}
-
-	${FreeImage_INCLUDE_DIRS}
-	
-	${TESS2_INCLUDE_DIR}
+	${FreeImage_INCLUDE_DIRS}	
+	${tesselator_INCLUDE_DIR}
 	${SNDFILE_INCLUDE_DIR}
 	${KISS_INCLUDE_DIR}
 
@@ -363,7 +354,7 @@ set(OF_LIBRARIES
 	${FreeImage_LIBRARIES}
 	${CAIRO_LIBRARIES}
 	
-	${TESS2_LIBRARY}
+	${tesselator_LIBRARY}
 	
 	${KISS_LIBRARY}
 	pthread	
@@ -371,11 +362,14 @@ set(OF_LIBRARIES
 	CACHE STRING "Description"
 )
 
-OF_print_var( OF_INCLUDE_DIRS )
-OF_print_var( OF_LIBRARIES )
 
-OF_print_var( OF_INCLUDE_DIRS )
-OF_print_var( Poco_INCLUDE_DIR )
+
+
+#OF_print_var( OF_INCLUDE_DIRS )
+#OF_print_var( OF_LIBRARIES )
+
+#OF_print_var( OF_INCLUDE_DIRS )
+#OF_print_var( Poco_INCLUDE_DIR )
 
 
 # link dependent libraries
