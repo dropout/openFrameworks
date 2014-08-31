@@ -1,30 +1,19 @@
-# Once done this will define
+# Once done, this will define
 #
-# TESS2_INCLUDE_DIR
-# TESS2_LIBRARY
+# kiss_FOUND
+# kiss_INCLUDE_DIR
+# kiss_LIBRARY
 
-include(FindPackageHandleStandardArgs)
+include(${CMAKE_SOURCE_DIR}/cmake/LibFindMacros.cmake)
 
-find_path( KISS_INCLUDE_DIR
-	NAMES
-		kiss_fft.h
-	PATHS
-		${KISS_LOCATION}/include
-		NO_DEFAULT_PATH
-	DOC "The directory where kiss.fft resides"
+# Include dir
+find_path(kiss_INCLUDE_DIR
+  NAMES kiss_fft.h
 )
 
-find_library( KISS_LIBRARY
-	NAMES
-		kiss
-	PATHS
-		${KISS_LOCATION}/lib/linux64
-		NO_DEFAULT_PATH
-	DOC "The GLEW library"
+# Library itself
+find_library(kiss_LIBRARY
+  NAMES kiss
 )
 
-find_package_handle_standard_args( KISS
-	REQUIRED_VARS
-		KISS_INCLUDE_DIR
-		KISS_LIBRARY
-)
+libfind_process(kiss)

@@ -3,6 +3,7 @@ include(CheckTypeSize)
 
 # find out OF_PLATFORM_STRING to be able to give a hint when finding libraries
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	set(OF_OS_LINUX 1)
     if ("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
         set(OF_PLATFORM_STRING "linux")
     elseif("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")

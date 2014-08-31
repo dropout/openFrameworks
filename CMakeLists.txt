@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 include(${CMAKE_SOURCE_DIR}/cmake/Macros.cmake)
 
 # project name
-project(openFrameworks)
+#project(openFrameworksSuite)
 
 # include configuration
 include(${CMAKE_SOURCE_DIR}/cmake/Config.cmake)
@@ -18,6 +18,7 @@ endif("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 set(OF_VERSION_MAJOR 0)
 set(OF_VERSION_MINOR 8)
 set(OF_VERSION_PATCH 3)
+set(OF_VERSION ${OF_VERSION_MAJOR}.${OF_VERSION_MINOR}.${OF_VERSION_PATCH})
 
 # variables for internal usage
 set(OF_ROOT_DIR "${CMAKE_SOURCE_DIR}")
@@ -32,22 +33,15 @@ set(CMAKE_CXX_FLAGS_RELEASE				"-O4 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"-O2 -g")
 
 # variables exposed to the user
+of_option(OF_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/bin" STRING "The output directory of our targets.")
 of_option(OF_BUILD_EXAMPLES_3D ON BOOL "Build 3d examples.")
 of_option(OF_BUILD_EXAMPLES_GL ON BOOL "Build gl examples.")
 of_option(OF_BUILD_EXAMPLES_EVENTS ON BOOL "Build events examples.")
 of_option(OF_BUILD_EXAMPLES_GRAPHICS ON BOOL "Build graphics examples.")
-
 #of_option(OF_BUILD_EXAMPLES_GLES ON BOOL "Build events examples.")
 #of_option(OF_BUILD_EXAMPLES_GUI ON BOOL "Build events examples.")
 #of_option(OF_BUILD_EXAMPLES_UTILS ON BOOL "Build events examples.")
 
-of_option(OF_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin" STRING "Where to put compiled openFrameworks and the examples.")
-
-of_print_var(CMAKE_PREFIX_PATH)
-
-# openFrameworks library project
+# inform cmake what to build
 add_subdirectory(libs/openFrameworks)
-
-# openFrameworks examples project
 add_subdirectory(examples)
-

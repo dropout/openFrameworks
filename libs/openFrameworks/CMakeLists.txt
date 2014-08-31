@@ -1,81 +1,69 @@
 include(${CMAKE_SOURCE_DIR}/cmake/Macros.cmake)
+include(CMakePackageConfigHelpers)
 
 # project name
 project(openFrameworks)
 
-# configure find_package behaviour
-#set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs)
-
-set(message ${OF_LIBS_DIR}/tess2/lib/${OF_PLATFORM_STRING})
-
-OF_print_var(message)
-
-
+# configure cmake to know about additional library dirs common for all platforms
 set(CMAKE_PREFIX_PATH
+	${OF_LIBS_DIR}/poco/lib/${OF_PLATFORM_STRING}
+	${OF_LIBS_DIR}/glfw/lib/${OF_PLATFORM_STRING}
 	${OF_LIBS_DIR}/tess2/lib/${OF_PLATFORM_STRING}
 )
 
 set(CMAKE_INCLUDE_PATH
+	${OF_LIBS_DIR}/poco/include/
+	${OF_LIBS_DIR}/glfw/include/
 	${OF_LIBS_DIR}/tess2/include/
 )
 
+# platform specific libraries hints
+if (OF_OS_LINUX)
+
+	set(CMAKE_PREFIX_PATH
+		${CMAKE_PREFIX_PATH}		
+		${OF_LIBS_DIR}/kiss/lib/${OF_PLATFORM_STRING}
+	)
+
+	set(CMAKE_INCLUDE_PATH
+		${CMAKE_INCLUDE_PATH}		
+		${OF_LIBS_DIR}/kiss/include/
+	)
+
+endif(OF_OS_LINUX)
+
 # find dependencies
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
-find_package(GStreamer REQUIRED "0.10.20")
+if (OF_OS_LINUX)
+	find_package(PkgConfig REQUIRED)
+	pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+	find_package(GStreamer REQUIRED)
+endif(OF_OS_LINUX)
 
-#set(Poco_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/libs/poco)
-set(POCO_LOCATION ${CMAKE_SOURCE_DIR}/libs/poco)
 find_package(Poco REQUIRED)
-
 find_package(OpenGL REQUIRED)
 find_package(Glew REQUIRED)
-
 find_package(Fontconfig REQUIRED)
 find_package(Freetype REQUIRED)
-
-set(GLFW_LOCATION ${CMAKE_SOURCE_DIR}/libs/glfw)
 find_package(Glfw REQUIRED)
-
-# find cairo
 find_package(Cairo REQUIRED)
-
-# find freeimage
 find_package(FreeImage REQUIRED)
-
-# find tesselator
 find_package(Tesselator REQUIRED)
-
-# find openal
-find_package(OpenAL REQUIRED)
-
-# find openssl
-find_package(OpenSSL REQUIRED)
-
-# find openssl
-find_package(Sndfile REQUIRED)
-
-# find kiss fft
-set(KISS_LOCATION ${CMAKE_SOURCE_DIR}/libs/kiss)
 find_package(Kiss REQUIRED)
-
-# find udev
+find_package(OpenAL REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(Sndfile REQUIRED)
 find_package(Udev REQUIRED)
 
 # source files
 set(BASEDIR ${PROJECT_SOURCE_DIR})
 
 set(INCLUDE
-
-	# 3d
 	${BASEDIR}/3d/of3dPrimitives.h
 	${BASEDIR}/3d/of3dUtils.h
 	${BASEDIR}/3d/ofCamera.h
 	${BASEDIR}/3d/ofEasyCam.h
 	${BASEDIR}/3d/ofMesh.h
 	${BASEDIR}/3d/ofNode.h
-
-	# app
 	${BASEDIR}/app/ofAppBaseWindow.h
 	#${BASEDIR}/app/ofAppEGLWindow.h
 	${BASEDIR}/app/ofAppGLFWWindow.h
@@ -84,17 +72,11 @@ set(INCLUDE
 	${BASEDIR}/app/ofAppRunner.h
 	${BASEDIR}/app/ofBaseApp.h
 	${BASEDIR}/app/ofIcon.h
-
-	# communication
 	${BASEDIR}/communication/ofArduino.h
 	${BASEDIR}/communication/ofSerial.h
-
-	# events
 	${BASEDIR}/events/ofDelegate.h
 	${BASEDIR}/events/ofEvents.h
 	${BASEDIR}/events/ofEventUtils.h
-
-	# gl
 	${BASEDIR}/gl/ofFbo.h
 	${BASEDIR}/gl/ofGLProgrammableRenderer.h
 	${BASEDIR}/gl/ofGLRenderer.h
@@ -105,8 +87,6 @@ set(INCLUDE
 	${BASEDIR}/gl/ofTexture.h
 	${BASEDIR}/gl/ofVbo.h
 	${BASEDIR}/gl/ofVboMesh.h
-
-	# graphics
 	${BASEDIR}/graphics/of3dGraphics.h
 	${BASEDIR}/graphics/ofBitmapFont.h
 	${BASEDIR}/graphics/ofCairoRenderer.h
@@ -118,8 +98,6 @@ set(INCLUDE
 	${BASEDIR}/graphics/ofRendererCollection.h
 	${BASEDIR}/graphics/ofTessellator.h
 	${BASEDIR}/graphics/ofTrueTypeFont.h
-
-	# math
 	${BASEDIR}/math/ofMath.h
 	${BASEDIR}/math/ofMatrix3x3.h
 	${BASEDIR}/math/ofMatrix4x4.h
@@ -128,8 +106,6 @@ set(INCLUDE
 	${BASEDIR}/math/ofVec3f.h
 	${BASEDIR}/math/ofVec4f.h
 	${BASEDIR}/math/ofVectorMath.h
-
-	# sound
 	${BASEDIR}/sound/ofBaseSoundPlayer.h
 	${BASEDIR}/sound/ofBaseSoundStream.h
 	${BASEDIR}/sound/ofFmodSoundPlayer.h
@@ -137,8 +113,6 @@ set(INCLUDE
 	${BASEDIR}/sound/ofRtAudioSoundStream.h
 	${BASEDIR}/sound/ofSoundPlayer.h
 	${BASEDIR}/sound/ofSoundStream.h	
-
-	# types
 	${BASEDIR}/types/ofBaseTypes.h
 	${BASEDIR}/types/ofColor.h
 	${BASEDIR}/types/ofParameterGroup.h
@@ -146,8 +120,6 @@ set(INCLUDE
 	${BASEDIR}/types/ofPoint.h
 	${BASEDIR}/types/ofRectangle.h
 	${BASEDIR}/types/ofTypes.h	
-
-	# utils
 	${BASEDIR}/utils/ofConstants.h
 	${BASEDIR}/utils/ofFileUtils.h
 	${BASEDIR}/utils/ofLog.h
@@ -158,8 +130,6 @@ set(INCLUDE
 	${BASEDIR}/utils/ofURLFileLoader.h
 	${BASEDIR}/utils/ofUtils.h
 	${BASEDIR}/utils/ofXml.h	
-
-	# video
 	${BASEDIR}/video/ofDirectShowGrabber.h
 	${BASEDIR}/video/ofGstUtils.h
 	${BASEDIR}/video/ofGstVideoGrabber.h
@@ -172,36 +142,24 @@ set(INCLUDE
 	${BASEDIR}/video/ofQuickTimePlayer.h
 	${BASEDIR}/video/ofVideoGrabber.h
 	${BASEDIR}/video/ofVideoPlayer.h
-
-	# ofMain
 	${BASEDIR}/ofMain.h
 )
 
 set(SRC
-
-	# 3d
 	${BASEDIR}/3d/of3dPrimitives.cpp
 	${BASEDIR}/3d/of3dUtils.cpp
 	${BASEDIR}/3d/ofCamera.cpp
 	${BASEDIR}/3d/ofEasyCam.cpp
 	${BASEDIR}/3d/ofMesh.cpp
 	${BASEDIR}/3d/ofNode.cpp
-
-	# app
 	#${BASEDIR}/app/ofAppEGLWindow.cpp
 	${BASEDIR}/app/ofAppGLFWWindow.cpp
 	${BASEDIR}/app/ofAppGlutWindow.cpp
 	${BASEDIR}/app/ofAppNoWindow.cpp
 	${BASEDIR}/app/ofAppRunner.cpp
-
-	# communication
 	${BASEDIR}/communication/ofArduino.cpp
 	${BASEDIR}/communication/ofSerial.cpp
-
-	# events
 	${BASEDIR}/events/ofEvents.cpp
-
-	# gl
 	${BASEDIR}/gl/ofFbo.cpp
 	${BASEDIR}/gl/ofGLProgrammableRenderer.cpp
 	${BASEDIR}/gl/ofGLRenderer.cpp
@@ -212,8 +170,6 @@ set(SRC
 	${BASEDIR}/gl/ofTexture.cpp
 	${BASEDIR}/gl/ofVbo.cpp
 	${BASEDIR}/gl/ofVboMesh.cpp
-
-	# graphics
 	${BASEDIR}/graphics/of3dGraphics.cpp
 	${BASEDIR}/graphics/ofBitmapFont.cpp
 	${BASEDIR}/graphics/ofCairoRenderer.cpp
@@ -225,30 +181,22 @@ set(SRC
 	${BASEDIR}/graphics/ofRendererCollection.cpp
 	${BASEDIR}/graphics/ofTessellator.cpp
 	${BASEDIR}/graphics/ofTrueTypeFont.cpp
-
-	# math
 	${BASEDIR}/math/ofMath.cpp
 	${BASEDIR}/math/ofMatrix3x3.cpp
 	${BASEDIR}/math/ofMatrix4x4.cpp
 	${BASEDIR}/math/ofQuaternion.cpp
 	${BASEDIR}/math/ofVec2f.cpp
 	${BASEDIR}/math/ofVec4f.cpp
-
-	# sound
 	${BASEDIR}/sound/ofFmodSoundPlayer.cpp
 	${BASEDIR}/sound/ofOpenALSoundPlayer.cpp
 	${BASEDIR}/sound/ofRtAudioSoundStream.cpp
 	${BASEDIR}/sound/ofSoundPlayer.cpp
 	${BASEDIR}/sound/ofSoundStream.cpp
-
-	# types
 	${BASEDIR}/types/ofBaseTypes.cpp
 	${BASEDIR}/types/ofColor.cpp
 	${BASEDIR}/types/ofParameter.cpp
 	${BASEDIR}/types/ofParameterGroup.cpp
 	${BASEDIR}/types/ofRectangle.cpp
-
-	# utils
 	${BASEDIR}/utils/ofFileUtils.cpp
 	${BASEDIR}/utils/ofLog.cpp
 	${BASEDIR}/utils/ofMatrixStack.cpp
@@ -257,8 +205,6 @@ set(SRC
 	${BASEDIR}/utils/ofURLFileLoader.cpp
 	${BASEDIR}/utils/ofUtils.cpp
 	${BASEDIR}/utils/ofXml.cpp
-
-	# video
 	${BASEDIR}/video/ofDirectShowGrabber.cpp
 	${BASEDIR}/video/ofGstUtils.cpp
 	${BASEDIR}/video/ofGstVideoGrabber.cpp
@@ -273,7 +219,7 @@ set(SRC
 	${BASEDIR}/video/ofVideoPlayer.cpp
 )
 
-# set include dirs
+# set of include directories
 set(OF_INCLUDE_DIRS
 
 	# core include dirs
@@ -291,37 +237,50 @@ set(OF_INCLUDE_DIRS
 	${BASEDIR}/video
 
 	# library include dirs
-	${OF_LIBS_DIR}/fmodex/include
-	${OF_LIBS_DIR}/quicktime/include
-	${OF_LIBS_DIR}/rtAudio/include	
-	${OF_LIBS_DIR}/videoInput/include
-	
 	${OPENGL_INCLUDE_DIR}
 	${GLFW_INCLUDE_DIR}
 	${GLEW_INCLUDE_DIR}
+
 	${GTK3_INCLUDE_DIRS}	
 	${Poco_INCLUDE_DIR}
 	${FONTCONFIG_INCLUDE_DIR}
 	${FREETYPE_INCLUDE_DIRS}
+	
 	${GSTREAMER_APP_INCLUDE_DIRS}
 	${GSTREAMER_INCLUDE_DIRS}
 	${GSTREAMER_VIDEO_INCLUDE_DIRS}
 	${GSTREAMER_BASE_INCLUDE_DIRS}	
-	${UDEV_INCLUDE_DIR}
-	${OPENAL_INCLUDE_DIR}
-	${OPENSSL_INCLUDE_DIR}
-	${FreeImage_INCLUDE_DIRS}	
-	${tesselator_INCLUDE_DIR}
-	${SNDFILE_INCLUDE_DIR}
-	${KISS_INCLUDE_DIR}
 
-	CACHE STRING "Description"
+	${OPENAL_INCLUDE_DIR}
+	${SNDFILE_INCLUDE_DIR}	
+
+	${OPENSSL_INCLUDE_DIR}
+	${FreeImage_INCLUDE_DIRS}
+	${UDEV_INCLUDE_DIR}
+
+	${tesselator_INCLUDE_DIR}
+	${kiss_INCLUDE_DIR}
+
+
+
+	${OF_LIBS_DIR}/fmodex/include
+	${OF_LIBS_DIR}/quicktime/include
+	${OF_LIBS_DIR}/rtAudio/include	
+	${OF_LIBS_DIR}/videoInput/include
+
+	CACHE STRING "Openframeworks include directories" FORCE
 )
 
 # library target
 add_library(openFrameworks STATIC
 	${INCLUDE}
 	${SRC}
+)
+
+# configure target
+set_target_properties(openFrameworks PROPERTIES 
+	ARCHIVE_OUTPUT_DIRECTORY ${OF_OUTPUT_DIR}/libs/openFrameworks
+	LIBRARY_OUTPUT_DIRECTORY ${OF_OUTPUT_DIR}/libs/openFrameworks
 )
 
 include_directories(
@@ -356,21 +315,11 @@ set(OF_LIBRARIES
 	
 	${tesselator_LIBRARY}
 	
-	${KISS_LIBRARY}
+	${kiss_LIBRARY}
 	pthread	
 
-	CACHE STRING "Description"
+	CACHE STRING "Openframeworks libraries" FORCE	
 )
-
-
-
-
-#OF_print_var( OF_INCLUDE_DIRS )
-#OF_print_var( OF_LIBRARIES )
-
-#OF_print_var( OF_INCLUDE_DIRS )
-#OF_print_var( Poco_INCLUDE_DIR )
-
 
 # link dependent libraries
 target_link_libraries(openFrameworks
@@ -378,22 +327,35 @@ target_link_libraries(openFrameworks
 )
 
 add_definitions(
-	-DOF_USING_GTK 
+	-DOF_USING_GTK
 	-D_REENTRANT
 )
 
-# Configure OGLPlus library
-#add_definitions(-DOGLPLUS_USE_GLCOREARB_H=0 -DOGLPLUS_USE_GLEW=1 -DGLM_FORCE_RADIANS)
-#add_definitions(-DOF_TARGET_LINUX=1)
-#add_definitions(-DGST_DISABLE_DEPRECATED=1)
 
+# In my case the folder of includes can be any source folder,
+# a practice very extended (in opposition to a single folder
+# containing all the headers).
+set(openFrameworks_INCLUDE_DIRS ${OF_INCLUDE_DIRS})
+set(openFrameworks_LIBRARIES ${OF_LIBRARIES})
 
+# Destination of the installed config files (relative path):
+set(CMAKE_CONFIG_DEST "share/cmake/Modules")
 
-#install(TARGETS openFrameworks DESTINATION ${CMAKE_SOURCE_DIR}/bin)
-#install(FILES ${HEADER} DESTINATION include/${DIR})
-
-# configure target
-set_target_properties(openFrameworks PROPERTIES 
-	ARCHIVE_OUTPUT_DIRECTORY ${OF_OUTPUT_PATH}/libs/openFrameworks
-	LIBRARY_OUTPUT_DIRECTORY ${OF_OUTPUT_PATH}/libs/openFrameworks
+# Configure template
+configure_package_config_file (                         
+	"${BASEDIR}/openFrameworks-config.cmake.in"
+	# Important to write in CMAKE_BINARY_DIR if you want the registry
+	# mechanism to work:
+	"${CMAKE_BINARY_DIR}/openframeworks-config.cmake"  
+	INSTALL_DESTINATION "${CMAKE_CONFIG_DEST}"
+	PATH_VARS 
+		openFrameworks_INCLUDE_DIRS 
+		openFrameworks_LIBRARIES
 )
+
+export(PACKAGE openFrameworks)
+
+# This file is included in our template:
+#export ( TARGETS openFrameworks_LIBRARIES FILE "${CMAKE_BINARY_DIR}/fooTargets.cmake" )
+
+
