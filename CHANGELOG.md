@@ -32,10 +32,12 @@ CORE
 	- ofSetMinMagFilters() : deprecated (use corresponding ofTexture member method) 
 	- ofGetUsingCustomMinMagFilters() : deprecated
 	- ofRestoreMinMagFilters() : deprecated	  
-
+	+ ofShader: report offending lines on compiling errors
+	+ ofGLUtils: better support for half float types
 
 ### graphics
 	+ ofTruetypeFont: kerning and better hinting and spacing
+	+ ofDrawBitmapString: can draw any type not only strings
 
 ### video
 	/ gstreamer: fix memory leaks when closing a video element
