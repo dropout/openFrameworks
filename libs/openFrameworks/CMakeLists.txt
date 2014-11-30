@@ -268,7 +268,7 @@ set(OF_INCLUDE_DIRS
 	${OF_LIBS_DIR}/rtAudio/include	
 	${OF_LIBS_DIR}/videoInput/include
 
-	CACHE STRING "Openframeworks include directories" FORCE
+	#CACHE STRING "Openframeworks include directories" FORCE
 )
 
 # library target
@@ -318,7 +318,7 @@ set(OF_LIBRARIES
 	${kiss_LIBRARY}
 	pthread	
 
-	CACHE STRING "Openframeworks libraries" FORCE	
+	#CACHE STRING "Openframeworks libraries" FORCE	
 )
 
 # link dependent libraries
@@ -331,26 +331,19 @@ add_definitions(
 	-D_REENTRANT
 )
 
-
-# In my case the folder of includes can be any source folder,
-# a practice very extended (in opposition to a single folder
-# containing all the headers).
-set(openFrameworks_INCLUDE_DIRS ${OF_INCLUDE_DIRS})
-set(openFrameworks_LIBRARIES ${OF_LIBRARIES})
-
 # Destination of the installed config files (relative path):
 set(CMAKE_CONFIG_DEST "share/cmake/Modules")
 
 # Configure template
-configure_package_config_file (                         
-	"${BASEDIR}/openFrameworks-config.cmake.in"
+configure_package_config_file(
+	"${BASEDIR}/openframeworks-config.cmake.in"
 	# Important to write in CMAKE_BINARY_DIR if you want the registry
 	# mechanism to work:
-	"${CMAKE_BINARY_DIR}/openframeworks-config.cmake"  
+	"${CMAKE_BINARY_DIR}/openframeworks-config.cmake"
 	INSTALL_DESTINATION "${CMAKE_CONFIG_DEST}"
-	PATH_VARS 
-		openFrameworks_INCLUDE_DIRS 
-		openFrameworks_LIBRARIES
+	PATH_VARS
+		OF_INCLUDE_DIRS
+		OF_LIBRARIES
 )
 
 export(PACKAGE openFrameworks)

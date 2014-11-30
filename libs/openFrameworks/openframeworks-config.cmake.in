@@ -1,7 +1,7 @@
 @PACKAGE_INIT@ 
 
-set(openFrameworks_INCLUDE_DIRS "@PACKAGE_openFrameworks_INCLUDE_DIRS@")
-set(openFrameWorks_LIBRARIES "@PACKAGE_openFrameworks_LIBRARIES@")
+set(openFrameworks_INCLUDE_DIRS "@PACKAGE_OF_INCLUDE_DIRS@")
+set(openFrameWorks_LIBRARIES "@PACKAGE_OF_LIBRARIES@")
 
 #include ( "${CMAKE_CURRENT_LIST_DIR}/fooTargets.cmake" )
 

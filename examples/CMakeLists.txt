@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(examples)
 
+add_subdirectory(${CMAKE_SOURCE_DIR}/examples/addons/opencvExample)
+
 if (OF_BUILD_EXAMPLES_3D)	
 	add_subdirectory(${CMAKE_SOURCE_DIR}/examples/3d/3DPrimitivesExample)
 #	add_subdirectory(${CMAKE_SOURCE_DIR}/examples/3d/advanced3dExample)

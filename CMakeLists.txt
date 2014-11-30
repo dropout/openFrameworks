@@ -1,12 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-
-# include utility macros
 include(${CMAKE_SOURCE_DIR}/cmake/Macros.cmake)
-
-# project name
-#project(openFrameworksSuite)
-
-# include configuration
 include(${CMAKE_SOURCE_DIR}/cmake/Config.cmake)
 
 # disable building in source folder
@@ -44,4 +37,5 @@ of_option(OF_BUILD_EXAMPLES_GRAPHICS ON BOOL "Build graphics examples.")
 
 # inform cmake what to build
 add_subdirectory(libs/openFrameworks)
+add_subdirectory(addons)
 add_subdirectory(examples)

@@ -17,13 +17,18 @@ set(SOURCE
 )
 
 # find openFrameworks
-set(openFrameworks_DIR ${CMAKE_BINARY_DIR}) # generated project config file location
+set(openFrameworks_DIR ${CMAKE_BINARY_DIR})
 find_package(openFrameworks)
+
+# find ofxOpenCv addon
+set(ofxOpenCv_DIR ${CMAKE_BINARY_DIR})
+find_package(ofxOpenCv)
 
 # header file locations
 include_directories(
 	${BASE_DIR}/src
 	${openFrameworks_INCLUDE_DIRS}
+	${ofxOpenCv_INCLUDE_DIRS}
 )
 
 # set up target
@@ -31,8 +36,10 @@ add_executable(${BASE_DIRNAME} ${SOURCE})
 
 # link libraries
 target_link_libraries(${BASE_DIRNAME}
-	openFrameworks
-	${openFrameworks_LIBRARIES}
+	#openFrameworks
+	#${openFrameworks_LIBRARIES}
+	ofxOpenCv
+	${ofxOpenCv_LIBRARIES}
 )
 
 # where to put example executable
@@ -41,4 +48,4 @@ set_target_properties(${BASE_DIRNAME} PROPERTIES
 )
 
 # copy assets required for example
-of_copy_directory_if_changed(${BASE_DIRNAME} ${BASE_DIR}/bin ${OF_OUTPUT_DIR}/examples/${PARENT_DIRNAME}/${BASE_DIRNAME})
+#of_copy_directory_if_changed(${BASE_DIRNAME} ${BASE_DIR}/bin ${OF_OUTPUT_DIR}/examples/${PARENT_DIRNAME}/${BASE_DIRNAME})
